@@ -5,11 +5,11 @@ import java.util.List;
 
 public class VirtualRESTAPi {
 
-    private static final int MAX_THRESHOLD = 10;
+    private static final int MAX_THRESHOLD = 20;
 
-    private static List<DataItem> get300Data(){
+    private static List<DataItem> get4000Data(){
         List<DataItem> dataItems = new ArrayList<>();
-        for (int i=0; i<300; i++){
+        for (int i=0; i<4000; i++){
             DataItem data = new DataItem("Apurba", i+"");
             dataItems.add(data);
         }
@@ -17,7 +17,7 @@ public class VirtualRESTAPi {
     }
 
     public static List<DataItem> getNextData(int page, boolean isDown){
-        List<DataItem> database = get300Data();
+        List<DataItem> database = get4000Data();
         List<DataItem> pageData = new ArrayList<>();
         int index = page;
         int count = 0;
