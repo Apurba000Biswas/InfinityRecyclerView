@@ -29,4 +29,7 @@ dependencies {
 
     // recycler view
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    // paging lib
+    implementation "androidx.paging:paging-runtime:2.1.0"
 }

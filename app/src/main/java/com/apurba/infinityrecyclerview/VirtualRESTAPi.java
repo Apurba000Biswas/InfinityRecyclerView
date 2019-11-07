@@ -7,32 +7,24 @@ public class VirtualRESTAPi {
 
     private static final int MAX_THRESHOLD = 20;
 
-    private static List<DataItem> get4000Data(){
+    private static List<DataItem> get200Data(){
         List<DataItem> dataItems = new ArrayList<>();
-        for (int i=0; i<4000; i++){
-            DataItem data = new DataItem("Apurba", i+"");
+        for (int i=0; i<200; i++){
+            DataItem data = new DataItem("Apurba", i);
             dataItems.add(data);
         }
         return dataItems;
     }
 
-    public static List<DataItem> getNextData(int page, boolean isDown){
-        List<DataItem> database = get4000Data();
+    public static List<DataItem> getNextData(int id){
+        List<DataItem> database = get200Data();
+        if (id >= database.size()-1) return null;
         List<DataItem> pageData = new ArrayList<>();
-        int index = page;
         int count = 0;
-        if (isDown){
-            while (index < database.size() && count < MAX_THRESHOLD){
-                pageData.add(database.get(index));
-                index++;
-                count++;
-            }
-        }else {
-            while (index > 0 && count < MAX_THRESHOLD){
-                pageData.add(database.get(index));
-                index--;
-                count++;
-            }
+        while (id < database.size() && count < MAX_THRESHOLD){
+            pageData.add(database.get(id));
+            id++;
+            count ++;
         }
 
         return pageData;

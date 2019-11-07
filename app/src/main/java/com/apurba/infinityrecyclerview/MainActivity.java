@@ -1,14 +1,15 @@
 package com.apurba.infinityrecyclerview;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private EndlessRecyclerViewScrollListener scrollListener;
     RecyclerView recyclerView;
     DataItemAdapter adapter;
+
+    LiveData<PagedList<DataItem>> dataItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,20 +34,27 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        List<DataItem> dataSet = VirtualRESTAPi.getNextData(0, true);
-        adapter = new DataItemAdapter(dataSet);
+        adapter = new DataItemAdapter();
 
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+
+        // Initial page size to fetch can also be configured here too
+        PagedList.Config config = new PagedList.Config.Builder().setPageSize(20).build();
+
+        DataItemDataSourceFactory factory = new DataItemDataSourceFactory();
+        dataItems = new LivePagedListBuilder(factory, config).build();
+
+        dataItems.observe(this, new Observer<PagedList<DataItem>>() {
+
             @Override
-            public void onLoadMore(int page, int totalItemsCount, int dx, int dy) {
-                loadMore(page,totalItemsCount, dx, dy);
+            public void onChanged(PagedList<DataItem> dataItems) {
+                adapter.submitList(dataItems);
             }
-        };
-        recyclerView.addOnScrollListener(scrollListener);
+        });
 
         recyclerView.setAdapter(adapter);
     }
 
+    /*
     private void loadMore(int page,int totalItem, int dx, int dy){
         Log.d(LOG_TAG, "page : " + page + "Total Items : " + totalItem + " dx : " + dx + " dy : " + dy);
         List<DataItem> dataSet = new ArrayList<>();
@@ -65,4 +75,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+     */
 }

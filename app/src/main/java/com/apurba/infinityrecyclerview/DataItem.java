@@ -2,9 +2,9 @@ package com.apurba.infinityrecyclerview;
 
 public class DataItem {
     private String name;
-    private String id;
+    private int id;
 
-    public DataItem(String name, String id) {
+    public DataItem(String name, int id) {
         this.name = name;
         this.id = id;
     }
@@ -13,7 +13,7 @@ public class DataItem {
         return name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 }
